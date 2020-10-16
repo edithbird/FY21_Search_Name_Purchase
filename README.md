@@ -10,3 +10,6 @@ The process is in general
 4. Submit to Tracy, who gets approval from VP Enrollment. 
 5. Once approved, submit invoice(s) to Dianne Knoop with correct chart fields for PO number. 
 6. Make purchase.  
+
+## Notable this purchase. 
+10/15/2020: Refer to a series of emails that explain how there is a delay getting a PO number because a contract is called for?
