@@ -1,0 +1,101 @@
+---
+title: "Marketing Report"
+subtitle: "Office of Marketing and Brand Management"
+date: "`r Sys.Date()`"
+
+output:
+  tufte::tufte_handout:
+    citation_package: natbib
+    latex_engine: xelatex
+  tufte::tufte_html: default
+  tufte::tufte_book:
+    citation_package: natbib
+    latex_engine: tinytex
+bibliography: skeleton.bib
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+library(tufte)
+library(knitr)
+library(formatR)
+library(blastula)
+library(gt)
+library(glue)
+library(formattable)
+library(hms)
+library(tidyverse)
+library(knitr)
+library(ggpubr)
+
+
+# invalidate cache when the tufte version changes
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE,
+	cache.extra = packageVersion("tufte"),
+	tidy = FALSE
+)
+options(tinytex.verbose = TRUE)
+```
+
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+# __FY21 Analytics Project Template__
+
+# Description
+
+
+`r newthought('In this file')` we will merge the inquiries from Step 1 with the leads. The goal is to delete records who were not initially in the system as inquiries prior to the purchase date. 
+
+
+
+
+
+# FY21 October Senior Search 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# upload data
+SR_Oct_queried_records <- queried_records1
+
+
+SR_Oct_LeadsUploaded <- read.csv("C:/Users/christine.iyer/Box/FY21 Search/Search 1/UploadedLeadsInSF/1S21_AllLeads.csv", header = T, stringsAsFactors = F)
+
+
+dim(SR_Oct_LeadsUploaded)
+# filter SR
+
+
+
+SR_Oct_LeadsUploaded <- SR_Oct_LeadsUploaded %>% filter(Anticipated.Start.Year == 2021)
+
+# merge filtered data frames
+SR_Nov_trythis <- merge(SR_Oct_LeadsUploaded, SR_Oct_queried_records, by = "Email" )
+
+
+
+
+
+
+
+
+```
+```
+
+
+# Conclusions
+
+ 
+* 
+
+* 
+
+* Two
+
+\href{https://www.wrike.com/open.htm?id=570713380}{{\color{blue}{\underline{Wrike Project Details}}}}
+
+\href{https://github.com/edithbird/FY21_Search_Name_Purchase}{{\color{blue}{\underline{Github Repository}}}}
+
