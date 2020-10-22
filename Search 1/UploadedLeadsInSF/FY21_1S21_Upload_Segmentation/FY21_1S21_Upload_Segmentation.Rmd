@@ -57,82 +57,7 @@ options(tinytex.verbose = TRUE)
 # Findings
 
 
-__Margin Figures__
 
-Images and graphics play an integral role in Tufte's work. To place figures in the margin you can use the 
-
-```{r fig-margin, fig.margin = TRUE, fig.cap = "MPG vs horsepower, colored by transmission.", fig.width=3.5, fig.height=3.5, cache=TRUE, message=FALSE}
-colors <-  c("#F6A704", "#0E1033","#4E7B14","#A92007","#D47E0A")
-mtcars2 <- mtcars
-mtcars2$am <- factor(
-  mtcars$am, labels = c('automatic', 'manual')
-)
-a_a <- ggplot(mtcars2, aes(hp, mpg, color = am)) +
-  geom_point() + geom_smooth(se=FALSE ) +
-  theme(legend.position = 'bottom') + theme_bw() +
-    scale_color_manual(
-        values=colors)
-a_a
-```
-
-
-
-
-```{r eval=FALSE, include=FALSE}
-imgur_image <-
-   add_imgur_image(
-     image = a_a,
-     client_id = "851117406f0b457"
-   )
-
-```
-
-#
-
-__Save an Image to Email & Compose and Send an Email__
-
-The plot to the side will be included in an email. 
-
-```{r eval=FALSE, include=FALSE}
-
-
-body_text <-
-  glue(
-    "
-
-
-The data he sent makes much more sense. \\
-It was excluding students who are not yet captured \\
-because the census report is a couple months away. We \\
-discussed criteria for a new list which will hopefully \\ 
-include students who have deposited and are due to start \\
-in the upcoming months. This will give us a second year \\
-of applications so we can look at the patterns of ap-\\
-plication flow. He's sending the list by EOD tomorrow.
-
-
-
-{imgur_image}
-
-
-Thank you,
-
-Christine Iyer \\
-Marketing Data Analyst \\
-University of Southern Maine
-"
-  ) %>% md()
-
-compose_email(body = body_text) %>%
-  smtp_send(
-    #to = "wrike+into523544264@wrike.com",
-    to = "edithbird5@gmail.com",
-    #cc = "tracy.st@maine.edu",
-    from = "christine.iyer@maine.edu",
-    subject = "Project Update",
-    credentials = creds_key(id = "gmail")
-  )
-```
 
 
 ```{r}
@@ -143,32 +68,53 @@ Leads <- read.csv("C:/Users/christine.iyer/Box/FY21 Search/Search 1/UploadedLead
 ```
 
 ```{r}
-library(dplyr)
+
 LeadsCode <- Leads %>% mutate(Code = paste0(Lead.Segment.Cappex, "*", Lead.Segment.College.Board, "*", Lead.Segment.Niche, "*", Lead.Segment.NRCCUA))
 
+secondary <- c("Middlesex, MA", "Rockingham, NH", "Hillsborough, NH", "Strafford, NH")
+quarternary <- "Westchester, NY"
+state <- c("NH", "MA")
+areas <- c("ME", "MA", "CT", "NY", "NH")
+vendors <- c("CB", "NRCCUA")
 
-
-LC <- LeadsCode[1:200, c(4, 28)]
-LC <- LC %>% 
+#LC <- LeadsCode[1:200, c(4, 28)]
+LC <- LeadsCode %>% 
   mutate(NewCode = ifelse(nchar(as.character(Code)) < 18,Code,  "Multiple Vendors"), 
-         NewCode = gsub('\\*', "", NewCode))
+         NewCode = gsub('\\*', "", NewCode), 
+         Region = ifelse(Primary.State.Code %in% areas, Primary.State.Code, "Other"), 
+         Class = "SR", 
+         County_State = paste0(Primary.County, ", ", Primary.State.Code), 
+         GeoTarget = ifelse(County_State %in% secondary, "Secondary", 
+                            ifelse(Primary.State.Code == "ME","Primary", 
+                                   ifelse(County_State %in% quarternary, "Quarternary", 
+                                          ifelse(Region == "Other", "Outside", "Tertiary")))),
+         GeoTarget = factor(GeoTarget, levels = c("Primary", "Secondary", "Tertiary", "Quarternary", "Other")),
+         
+         Achievement = ifelse(grepl("H", NewCode), "High", 
+                              ifelse(grepl("G", NewCode), "General", 
+                                     ifelse(NewCode == "Multiple Vendors", NewCode,
+                                     "Aspirational"))), 
+         Achievement = factor(Achievement, levels = c("High", "General", "Aspirational", "Multiple Vendors")), 
+         Vendor = ifelse(grepl("^P", NewCode), "CB", 
+                         ifelse(grepl("^N", NewCode), "NRCCUA", 
+                                ifelse(grepl("^C", NewCode), "Cappex", 
+                                       ifelse(grepl("^X", NewCode), "Niche", NewCode))))
+         ) %>% 
+  group_by(Vendor, Class,  GeoTarget, Achievement, Region) %>% 
+  summarise(Quantity = n()) 
+#%>% 
+  #filter(Vendor %in% vendors)
+kable(LC)
 
-head(LC, 200)
 ```
 
-* 
 
-*
 
-\href{https://www.wrike.com/open.htm?id=525346252}{{\color{blue}{\underline{Wrike Project Details}}}}
 
-\href{https://github.com/edithbird/fy20_cybersecurity}{{\color{blue}{\underline{Github Repository}}}}
+\href{https://www.wrike.com/open.htm?id=582325792}{{\color{blue}{\underline{Wrike Project Details}}}}
 
-```{marginfigure, echo = TRUE}
-Notice that there is no number preceding the note. $x \in [a, b]$有
-$$\frac{d}{dx}\left( \int_{a}^{x} f(u)\,du\right)=f(x).$$
-```
 
+\href{https://github.com/edithbird/FY21_Search_Name_Purchase}{{\color{blue}{\underline{Github Repository}}}}
 
 
 
