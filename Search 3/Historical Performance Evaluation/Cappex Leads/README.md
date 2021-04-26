@@ -11,11 +11,11 @@ vendors.
 # Findings 
 
 ![Cappex Leads Enrollment Funnel](
-'/c/Users/christine.iyer/OneDrive - University of Maine System/FY21 
+/c/Users/christine.iyer/OneDrive - University of Maine System/FY21 
 Search/Search 3/Historical Performance Evaluation/Cappex Leads/CBNRCCUA 
-JRSR_Comparison.png') 
+JRSR_Comparison.png) 
 
-![Comparison CB and NRCCUA]('/c/Users/christine.iyer/OneDrive - 
+![Comparison CB and NRCCUA](/c/Users/christine.iyer/OneDrive - 
 University of 
 Maine System/FY21 Search/Search 3/Historical Performance 
-Evaluation/Cappex Leads/CappexFunnelFinal.png') 
+Evaluation/Cappex Leads/CappexFunnelFinal.png) 
